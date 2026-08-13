@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { Link } from "react-router";
 import gsap from "gsap";
 import { initCityStreet } from "./cityStreet";
 import "./hero.css";
@@ -94,12 +95,12 @@ export function Hero() {
           your organization's rules — prohibited phrases, required
           disclosures and formatting — before it ever reaches a client.
         </p>
-        <a className="hero__cta" href="#check">
+        <Link className="hero__cta" to="/login">
           <span>Run a compliance check</span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
             <path d="M5 12h13m-5-5 5 5-5 5" />
           </svg>
-        </a>
+        </Link>
       </main>
     </div>
   );
