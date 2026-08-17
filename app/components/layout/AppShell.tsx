@@ -47,7 +47,13 @@ export function AppShell({ children }: { children: ReactNode }) {
             Rules
           </Link>
           <span>Compliance Checks</span>
-          <span>Knowledge Base</span>
+          <Link
+            to="/app/knowledge-base"
+            className={pathname.startsWith("/app/knowledge-base") ? "is-active" : undefined}
+            aria-current={pathname.startsWith("/app/knowledge-base") ? "page" : undefined}
+          >
+            Knowledge Base
+          </Link>
           <span>Reports</span>
         </nav>
 

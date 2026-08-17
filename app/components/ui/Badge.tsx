@@ -8,7 +8,12 @@ export type BadgeTone =
   | "severity-high"
   | "severity-critical"
   | "disabled"
-  | "neutral";
+  | "neutral"
+  | "status-pending"
+  | "status-processing"
+  | "status-ready"
+  | "status-failed"
+  | "status-archived";
 
 /**
  * `animated` uses the `popIn` scale+fade variant — pair the conditional render of

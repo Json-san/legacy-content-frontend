@@ -45,3 +45,42 @@ export async function apiRequest<T>(path: string, options: RequestOptions = {}):
 
   return data as T;
 }
+
+type FormRequestOptions = {
+  method?: "POST" | "PATCH";
+  formData: FormData;
+  token?: string | null;
+};
+
+/**
+ * Sibling to `apiRequest` for multipart/form-data bodies (file uploads). Does not set
+ * `Content-Type` — the browser fills it in with the correct multipart boundary. Shares the
+ * same `{error:{code,message}}` error handling as `apiRequest`.
+ */
+export async function apiRequestForm<T>(path: string, options: FormRequestOptions): Promise<T> {
+  const { method = "POST", formData, token } = options;
+
+  const headers: Record<string, string> = {};
+  if (token) headers.Authorization = `Bearer ${token}`;
+
+  const res = await fetch(`${API_BASE_URL}${path}`, {
+    method,
+    headers,
+    body: formData,
+  });
+
+  if (res.status === 204) return undefined as T;
+
+  const data = await res.json().catch(() => null);
+
+  if (!res.ok) {
+    const errorBody = data?.error;
+    throw new ApiError(
+      res.status,
+      errorBody?.code ?? "UNKNOWN_ERROR",
+      errorBody?.message ?? "Something went wrong. Please try again.",
+    );
+  }
+
+  return data as T;
+}

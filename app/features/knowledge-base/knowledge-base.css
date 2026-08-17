@@ -1,0 +1,151 @@
+/* Knowledge Base — reuses the Rules feature's toolbar/list/drawer classes (`.rules-*`)
+ * from app-rules.css for visual parity; only document-specific bits (versions list) live
+ * here. Import app-rules.css alongside this file wherever those shared classes are needed. */
+
+@import "../rules/app-rules.css";
+
+/* ---------- card grid (Knowledge Base's own disposition — Rules stays a list) ---------- */
+
+.kb-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+
+.kb-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 20px;
+  background: var(--paper);
+}
+
+.kb-card__top {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.kb-card__name {
+  margin: 0;
+  font-family: "Playfair Display", Georgia, serif;
+  font-weight: 500;
+  font-size: 17px;
+  line-height: 1.3;
+  color: var(--ink);
+}
+
+.kb-card__meta {
+  margin: 0 0 8px;
+  color: var(--ink-soft);
+  font-size: 11.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.kb-card__actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+
+.kb-card--empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 128px;
+  color: var(--line);
+}
+
+.kb-card--empty svg {
+  width: 30px;
+  height: 30px;
+}
+
+.kb-versions {
+  margin: 24px 0;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+
+.kb-versions__title {
+  margin: 0 0 12px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.kb-versions__list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0 0 8px;
+  padding: 0;
+  list-style: none;
+}
+
+.kb-versions__row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 12.5px;
+}
+
+.kb-versions__number {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.kb-versions__date {
+  margin-left: auto;
+  color: var(--ink-soft);
+  font-size: 11.5px;
+}
+
+.kb-add-version {
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+
+/* ---------- summary modal ---------- */
+
+.kb-summary-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.kb-summary-modal__title {
+  margin: 0 0 4px;
+  font-family: "Playfair Display", Georgia, serif;
+  font-weight: 500;
+  font-size: 21px;
+  color: var(--ink);
+}
+
+.kb-summary-modal__meta {
+  margin: 0 0 18px;
+  color: var(--ink-soft);
+  font-size: 11.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.kb-summary-modal__text {
+  margin: 0;
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 1.65;
+}
