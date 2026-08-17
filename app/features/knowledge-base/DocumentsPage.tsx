@@ -259,7 +259,7 @@ export default function DocumentsPage() {
                           type="button"
                           variant="ghost"
                           shape="pill"
-                          className="rules-row__action rules-row__action--confirm"
+                          className="rules-row__action rules-row__action--confirm btn--danger"
                           disabled={deleting === document.id}
                           onClick={() => handleDelete(document)}
                         >
@@ -270,7 +270,7 @@ export default function DocumentsPage() {
                           type="button"
                           variant="ghost"
                           shape="pill"
-                          className="rules-row__action"
+                          className="rules-row__action btn--danger"
                           onClick={() => setConfirmingDelete(document.id)}
                         >
                           Delete
