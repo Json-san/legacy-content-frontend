@@ -3,7 +3,13 @@ import { useNavigate } from "react-router";
 import { AnimatePresence, motion } from "framer-motion";
 import { useAuth } from "../auth/AuthContext";
 import { ApiError } from "../../lib/api-client";
-import { listDocuments, type Document, type DocumentSourceType, type DocumentStatus } from "./documents.api";
+import {
+  listDocuments,
+  deleteDocument,
+  type Document,
+  type DocumentSourceType,
+  type DocumentStatus,
+} from "./documents.api";
 import { AppShell } from "../../components/layout/AppShell";
 import { Dropdown } from "../../components/ui/Dropdown";
 import { Badge, type BadgeTone } from "../../components/ui/Badge";
@@ -55,6 +61,9 @@ export default function DocumentsPage() {
 
   const [drawerTarget, setDrawerTarget] = useState<Document | "new" | null>(null);
   const [viewingSummary, setViewingSummary] = useState<Document | null>(null);
+  const [confirmingDelete, setConfirmingDelete] = useState<string | null>(null);
+  const [deleting, setDeleting] = useState<string | null>(null);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
   const [page, setPage] = useState(1);
 
   const canManage = organization ? MANAGE_ROLES.has(organization.role) : false;
@@ -101,6 +110,21 @@ export default function DocumentsPage() {
 
   function upsertManyLocal(created: Document[]) {
     created.forEach(upsertLocal);
+  }
+
+  async function handleDelete(document: Document) {
+    if (!token || !organization) return;
+    setDeleteError(null);
+    setDeleting(document.id);
+    try {
+      await deleteDocument(organization.id, token, document.id);
+      setDocuments((prev) => prev?.filter((d) => d.id !== document.id) ?? prev);
+      setConfirmingDelete(null);
+    } catch (err) {
+      setDeleteError(err instanceof ApiError ? err.message : "Couldn't delete this document.");
+    } finally {
+      setDeleting(null);
+    }
   }
 
   if (isLoading || !user) return null;
@@ -229,7 +253,33 @@ export default function DocumentsPage() {
                     >
                       {canManage ? "Manage" : "Details"}
                     </Button>
+                    {canManage &&
+                      (confirmingDelete === document.id ? (
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          shape="pill"
+                          className="rules-row__action rules-row__action--confirm"
+                          disabled={deleting === document.id}
+                          onClick={() => handleDelete(document)}
+                        >
+                          {deleting === document.id ? "Deleting…" : "Confirm delete"}
+                        </Button>
+                      ) : (
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          shape="pill"
+                          className="rules-row__action"
+                          onClick={() => setConfirmingDelete(document.id)}
+                        >
+                          Delete
+                        </Button>
+                      ))}
                   </div>
+                  {deleteError && confirmingDelete === document.id && (
+                    <p className="kb-card__error">{deleteError}</p>
+                  )}
                 </motion.li>
               ))}
             </AnimatePresence>

@@ -60,6 +60,17 @@ export function getDocument(
   );
 }
 
+export function deleteDocument(
+  organizationId: string,
+  token: string,
+  documentId: string,
+): Promise<void> {
+  return apiRequest<void>(`/api/v1/organizations/${organizationId}/documents/${documentId}`, {
+    method: "DELETE",
+    token,
+  });
+}
+
 export function createDocument(
   organizationId: string,
   token: string,
