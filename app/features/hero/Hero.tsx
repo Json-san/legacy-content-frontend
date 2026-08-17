@@ -13,18 +13,26 @@ export function Hero() {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
+    const heroChildren = heroRef.current ? Array.from(heroRef.current.children) : [];
+    const animatedTargets = [navRef.current, canvas, ...heroChildren];
+
+    // Wipe any inline styles a tween from a previous mount left mid-flight
+    // (e.g. navigating away before the entrance animation finished).
+    gsap.killTweensOf(animatedTargets);
+    gsap.set(animatedTargets, { clearProps: "all" });
+
+    let tl: gsap.core.Timeline | null = null;
     const cleanup = initCityStreet(canvas, () => {
-      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+      tl = gsap.timeline({ defaults: { ease: "power3.out" } });
       tl.from(navRef.current, { y: -22, opacity: 0, duration: 0.8 }, 0);
-      tl.from(
-        heroRef.current ? Array.from(heroRef.current.children) : [],
-        { y: 24, opacity: 0, duration: 0.9, stagger: 0.09 },
-        0.12,
-      );
+      tl.from(heroChildren, { y: 24, opacity: 0, duration: 0.9, stagger: 0.09 }, 0.12);
       tl.from(canvas, { opacity: 0, duration: 1.1 }, 0);
     });
 
-    return cleanup;
+    return () => {
+      tl?.kill();
+      cleanup();
+    };
   }, []);
 
   return (
@@ -53,35 +61,13 @@ export function Hero() {
           </span>
         </a>
 
-        <nav className="nav__links" aria-label="Main">
-          <a href="#" className="is-active" aria-current="page">
-            Overview
-          </a>
-          <a href="#">Rules</a>
-          <a href="#">Compliance Checks</a>
-          <a href="#">Knowledge Base</a>
-          <a href="#">Reports</a>
-        </nav>
-
         <div className="nav__actions">
-          <button className="icon-btn" aria-label="Search">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-              <circle cx="11" cy="11" r="6.5" />
-              <path d="m16 16 4.5 4.5" />
-            </svg>
-          </button>
-          <button className="icon-btn" aria-label="Your account">
+          <Link className="icon-btn" to="/login" aria-label="Sign in">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
               <circle cx="12" cy="8" r="3.9" />
               <path d="M4.8 20c.6-4 3.6-6 7.2-6s6.6 2 7.2 6" />
             </svg>
-          </button>
-          <a className="icon-btn icon-btn--alerts" href="#alerts" aria-label="Review alerts">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-              <path d="M12 4v2M6 20h12l-1.6-2.7A6 6 0 0 1 15.4 14V11a3.4 3.4 0 0 0-6.8 0v3a6 6 0 0 1-1 3.3L6 20Z" />
-            </svg>
-            <span className="icon-btn__dot" />
-          </a>
+          </Link>
         </div>
       </header>
 

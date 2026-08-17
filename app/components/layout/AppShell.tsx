@@ -1,10 +1,11 @@
 import type { ReactNode } from "react";
-import { Link } from "react-router";
-import { useAuth } from "../lib/AuthContext";
+import { Link, useLocation } from "react-router";
+import { useAuth } from "../../features/auth/AuthContext";
 import "./app-shell.css";
 
 export function AppShell({ children }: { children: ReactNode }) {
   const { user, logout } = useAuth();
+  const { pathname } = useLocation();
 
   return (
     <div className="shell">
@@ -31,10 +32,20 @@ export function AppShell({ children }: { children: ReactNode }) {
         </Link>
 
         <nav className="nav__links" aria-label="Main">
-          <Link to="/app" className="is-active" aria-current="page">
+          <Link
+            to="/app"
+            className={pathname === "/app" ? "is-active" : undefined}
+            aria-current={pathname === "/app" ? "page" : undefined}
+          >
             Overview
           </Link>
-          <span>Rules</span>
+          <Link
+            to="/app/rules"
+            className={pathname.startsWith("/app/rules") ? "is-active" : undefined}
+            aria-current={pathname.startsWith("/app/rules") ? "page" : undefined}
+          >
+            Rules
+          </Link>
           <span>Compliance Checks</span>
           <span>Knowledge Base</span>
           <span>Reports</span>

@@ -1,0 +1,441 @@
+/* Hallmark · macrostructure: Workbench (filter rail + record list + slide-over editor)
+ * genre: editorial (inherited from app-shell.css — ink/paper, Playfair + Inter, hairline rule)
+ * tone: austere · no new palette, no new fonts — tokens read from the parent .shell scope
+ */
+
+.rules-readonly-note {
+  margin: -30px 0 32px;
+  padding: 12px 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--ink-soft);
+  font-size: 12.5px;
+}
+
+/* ---------- toolbar ---------- */
+
+.rules-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--line);
+}
+
+.rules-search {
+  flex: 1 1 220px;
+  min-width: 160px;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 13px;
+}
+
+.rules-search:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+.rules-new-btn.btn {
+  margin-left: auto;
+}
+
+.rules-error {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding: 12px 16px;
+  border: 1px solid var(--ink);
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.rules-loading,
+.rules-empty__desc {
+  color: var(--ink-soft);
+  font-size: 13.5px;
+}
+
+.rules-empty {
+  padding: 48px 0;
+  text-align: center;
+  border: 1px dashed var(--line);
+  border-radius: 14px;
+}
+
+.rules-empty__title {
+  margin: 0 0 8px;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 20px;
+}
+
+.rules-empty__desc {
+  max-width: 46ch;
+  margin: 0 auto 20px;
+  line-height: 1.6;
+}
+
+/* ---------- list ---------- */
+
+.rules-list {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+}
+
+.rules-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 20px 4px;
+  border-bottom: 1px solid var(--line);
+}
+
+/* Dim the row's own content when disabled, but not the "Disabled" badge itself —
+ * it needs to stay at full strength to actually read as evident. */
+.rules-row[data-enabled="false"] .rules-row__main > :not(.rules-row__heading),
+.rules-row[data-enabled="false"] .rules-row__heading > :not(.badge--disabled),
+.rules-row[data-enabled="false"] .rules-row__actions {
+  opacity: 0.55;
+}
+
+/* ---------- pagination ---------- */
+
+.rules-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.rules-pagination__status {
+  color: var(--ink-soft);
+  font-size: 12.5px;
+}
+
+.rules-row__main {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.rules-row__heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.rules-row__name {
+  font-family: "Playfair Display", Georgia, serif;
+  font-weight: 500;
+  font-size: 17px;
+}
+
+.rules-row__version {
+  padding: 2px 7px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  color: var(--ink-soft);
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+}
+
+.rules-row__desc {
+  max-width: 62ch;
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.rules-row__type {
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.rules-row__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  padding-top: 4px;
+}
+
+/* Row action buttons (Edit/Disable/Enable/Retry/pagination) render <Button variant="ghost"
+ * shape="pill">; override the shared .btn baseline back to this feature's original
+ * compact/lowercase look instead of the primary CTA's uppercase pill. */
+.rules-row__action.btn,
+.rules-pagination .btn {
+  padding: 7px 14px;
+  border-color: var(--line);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: none;
+}
+
+.rules-row__action--confirm.btn {
+  border-color: var(--ink);
+  font-weight: 600;
+}
+
+.rules-pagination .btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ---------- drawer (onboarding-style creation/edit flow) ---------- */
+
+.rules-drawer__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.rules-drawer__eyebrow {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+.rules-drawer__close {
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ink);
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.rules-drawer__close:hover {
+  background: rgba(17, 17, 17, 0.05);
+}
+
+.rules-steps {
+  display: flex;
+  gap: 18px;
+  margin: 0 0 26px;
+  padding: 0;
+  list-style: none;
+  border-bottom: 1px solid var(--line);
+}
+
+.rules-steps li {
+  padding-bottom: 12px;
+  color: var(--ink-soft);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-bottom: 2px solid transparent;
+  transition:
+    color 0.18s ease-out,
+    border-color 0.18s ease-out;
+}
+
+.rules-steps li.is-current {
+  color: var(--ink);
+  border-color: var(--ink);
+}
+
+.rules-steps li.is-done {
+  color: var(--ink);
+}
+
+.rules-drawer__form {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* ---------- step 1: type picker ---------- */
+
+.rules-type-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.rules-type-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px;
+  border: none;
+  background: var(--paper);
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.rules-type-card:hover {
+  background: rgba(17, 17, 17, 0.03);
+}
+
+.rules-type-card.is-selected {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.rules-type-card.is-selected .rules-type-card__hint {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.rules-type-card__label {
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.rules-type-card__hint {
+  font-size: 11.5px;
+  line-height: 1.4;
+  color: var(--ink-soft);
+}
+
+/* ---------- step 2/3: fields + review ---------- */
+
+.rules-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.rules-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 12.5px;
+  font-weight: 500;
+}
+
+.rules-field input[type="text"],
+.rules-field input[type="number"],
+.rules-field input:not([type]),
+.rules-field textarea {
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 400;
+}
+
+.rules-field input:focus-visible,
+.rules-field textarea:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 1px;
+}
+
+.rules-field textarea {
+  resize: vertical;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+.rules-field .dropdown {
+  display: block;
+}
+
+.rules-field .dropdown__trigger {
+  width: 100%;
+  justify-content: space-between;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 13.5px;
+}
+
+.rules-field--inline {
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  font-weight: 400;
+}
+
+.rules-field--inline input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--ink);
+}
+
+.rules-review dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px 16px;
+  margin: 0 0 20px;
+}
+
+.rules-review dt {
+  color: var(--ink-soft);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.rules-review dd {
+  margin: 0;
+  font-size: 13.5px;
+}
+
+.rules-review__note {
+  padding: 12px 14px;
+  border: 1px dashed var(--line);
+  border-radius: 8px;
+  color: var(--ink-soft);
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+
+.rules-drawer__nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 24px;
+}
+
+.rules-drawer__back.btn {
+  padding: 11px 20px;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: none;
+}
+
+.rules-drawer__nav .rules-new-btn.btn {
+  margin-left: 0;
+}
+
+@media (max-width: 640px) {
+  .rules-row {
+    flex-direction: column;
+  }
+}

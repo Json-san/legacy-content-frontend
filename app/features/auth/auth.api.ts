@@ -1,4 +1,4 @@
-import { apiRequest } from "./api-client";
+import { apiRequest } from "../../lib/api-client";
 
 const TOKEN_KEY = "legacy_content_token";
 
@@ -23,6 +23,15 @@ export type CurrentUser = {
   name: string;
   created_at: string;
   updated_at: string;
+};
+
+export type OrganizationRole = "OWNER" | "ADMIN" | "MEMBER" | "REVIEWER";
+
+export type MyOrganization = {
+  id: string;
+  name: string;
+  slug: string;
+  role: OrganizationRole;
 };
 
 export function getStoredToken(): string | null {
@@ -58,4 +67,8 @@ export async function register(payload: RegisterPayload): Promise<string> {
 
 export function fetchCurrentUser(token: string): Promise<CurrentUser> {
   return apiRequest<CurrentUser>("/api/v1/users/me", { token });
+}
+
+export function fetchMyOrganizations(token: string): Promise<MyOrganization[]> {
+  return apiRequest<MyOrganization[]>("/api/v1/users/me/organizations", { token });
 }

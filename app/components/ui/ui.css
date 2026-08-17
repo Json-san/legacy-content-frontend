@@ -1,0 +1,208 @@
+/* Shared UI layer — Dropdown, Drawer, Badge, Button.
+ * No palette of its own: reads --ink / --ink-soft / --line / --paper from whichever
+ * ancestor scope defines them (.shell on the app pages, .auth-page on login/register).
+ */
+
+/* ---------- Button ---------- */
+
+.btn {
+  border: 1px solid var(--ink);
+  font-family: inherit;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: background-color 0.2s ease, opacity 0.2s ease;
+}
+
+.btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.btn--primary {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.btn--primary:hover:not(:disabled) {
+  opacity: 0.85;
+}
+
+.btn--ghost {
+  background: transparent;
+  border-color: var(--line);
+  color: var(--ink);
+}
+
+.btn--ghost:hover:not(:disabled) {
+  background: rgba(17, 17, 17, 0.05);
+}
+
+.btn--pill {
+  padding: 11px 22px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  text-transform: uppercase;
+}
+
+.btn--rounded {
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: 11px;
+}
+
+/* ---------- Badge ---------- */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.badge--severity-low,
+.badge--severity-medium,
+.badge--severity-high,
+.badge--severity-critical {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1.4px solid var(--ink);
+  flex-shrink: 0;
+}
+
+.badge--severity-low {
+  background: transparent;
+  transform: scale(0.7);
+}
+
+.badge--severity-medium {
+  background: transparent;
+}
+
+.badge--severity-high {
+  background: var(--ink);
+}
+
+.badge--severity-critical {
+  background: var(--ink);
+  border-radius: 2px;
+}
+
+.badge--disabled {
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--paper);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.badge--neutral {
+  margin-top: auto;
+  padding-top: 10px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* ---------- Dropdown ---------- */
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 12.5px;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.dropdown__trigger-label {
+  white-space: nowrap;
+}
+
+.dropdown__chevron {
+  width: 10px;
+  height: 7px;
+  flex-shrink: 0;
+  color: var(--ink);
+}
+
+.dropdown__menu {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 6px);
+  left: 0;
+  min-width: 100%;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--paper);
+  box-shadow: 0 12px 28px rgba(17, 17, 17, 0.14);
+}
+
+.dropdown__option {
+  display: block;
+  width: 100%;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--ink);
+  font-size: 12.5px;
+  font-family: inherit;
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.dropdown__option:hover {
+  background: rgba(17, 17, 17, 0.05);
+}
+
+.dropdown__option.is-selected {
+  font-weight: 600;
+}
+
+/* ---------- Drawer ---------- */
+
+.drawer-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: flex;
+  justify-content: flex-end;
+  background: rgba(17, 17, 17, 0.28);
+}
+
+.drawer-panel {
+  display: flex;
+  flex-direction: column;
+  width: min(520px, 100vw);
+  height: 100vh;
+  padding: 28px clamp(20px, 3vw, 40px) 32px;
+  background: var(--paper);
+  border-left: 1px solid var(--line);
+  overflow-y: auto;
+}
+
+@media (max-width: 640px) {
+  .drawer-panel {
+    width: 100vw;
+  }
+}
